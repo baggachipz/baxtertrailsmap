@@ -12,17 +12,40 @@
         />
 
         <q-toolbar-title> Baxter Trails Map </q-toolbar-title>
+        <q-icon size="large" name="hiking"></q-icon>&nbsp;
+        <q-icon size="large" name="pedal_bike"></q-icon>&nbsp;
+        <q-icon size="large" name="forest"></q-icon>
       </q-toolbar>
     </q-header>
 
     <q-drawer v-model="leftDrawerOpen" show-if-above bordered>
       <q-img src="~assets/trail-club-logo.svg" alt="Baxter Trail Club"></q-img>
       <q-list>
-        <EssentialLink
-          v-for="link in essentialLinks"
-          :key="link.title"
-          v-bind="link"
-        />
+        <q-item clickable @click="reportProblem">
+          <q-item-section avatar>
+            <q-icon name="warning" />
+          </q-item-section>
+
+          <q-item-section>
+            <q-item-label>Report a Problem</q-item-label>
+            <q-item-label caption>Downed tree? Broken sign?</q-item-label>
+          </q-item-section>
+        </q-item>
+        <q-item
+          clickable
+          tag="a"
+          target="_blank"
+          href="https://www.facebook.com/BaxterTrailClub"
+        >
+          <q-item-section avatar>
+            <q-icon name="facebook" />
+          </q-item-section>
+
+          <q-item-section>
+            <q-item-label>Facebook</q-item-label>
+            <q-item-label caption>Connect with us</q-item-label>
+          </q-item-section>
+        </q-item>
       </q-list>
     </q-drawer>
 
@@ -33,40 +56,25 @@
 </template>
 
 <script>
-import { defineComponent, ref } from "vue";
-import EssentialLink from "components/EssentialLink.vue";
+import ReportProblem from "src/components/ReportProblem.vue";
 
-const linksList = [
-  {
-    title: "Report a Problem",
-    caption: "Downed tree? Broken sign?",
-    icon: "warning",
-    link: "",
-  },
-  {
-    title: "Reset Map",
-    icon: "map",
-    link: "",
-  },
-];
-
-export default defineComponent({
+export default {
   name: "MainLayout",
 
-  components: {
-    EssentialLink,
+  methods: {
+    toggleLeftDrawer() {
+      leftDrawerOpen.value = !leftDrawerOpen.value;
+    },
+    reportProblem() {
+      this.$q.dialog({
+        component: ReportProblem,
+      });
+    },
   },
-
-  setup() {
-    const leftDrawerOpen = ref(false);
-
+  data() {
     return {
-      essentialLinks: linksList,
-      leftDrawerOpen,
-      toggleLeftDrawer() {
-        leftDrawerOpen.value = !leftDrawerOpen.value;
-      },
+      leftDrawerOpen: false,
     };
   },
-});
+};
 </script>
