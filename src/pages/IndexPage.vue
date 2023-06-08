@@ -11,7 +11,7 @@
         url="https://{s}.tile-cyclosm.openstreetmap.fr/cyclosm/{z}/{x}/{y}.png'"
         layer-type="cyclosm"
         name="OpenStreetMap"
-        :min-zoom="15"
+        :min-zoom="getMinZoom"
       ></l-tile-layer>
       <l-control position="bottomleft">
         <q-btn
@@ -89,7 +89,11 @@ export default {
       this.map.setView(this.markerLatLng, 20, { animation: true });
     },
   },
-
+  computed: {
+    getMinZoom() {
+      return this.$q.platform.is.mobile ? 13 : 15;
+    },
+  },
   data() {
     return {
       map: null,

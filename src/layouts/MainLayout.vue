@@ -11,7 +11,7 @@
           @click="toggleLeftDrawer"
         />
 
-        <q-toolbar-title> Baxter Trails Map </q-toolbar-title>
+        <q-toolbar-title>Baxter Trail Map</q-toolbar-title>
         <q-icon size="large" name="hiking"></q-icon>&nbsp;
         <q-icon size="large" name="pedal_bike"></q-icon>&nbsp;
         <q-icon size="large" name="forest"></q-icon>
@@ -63,7 +63,7 @@ export default {
 
   methods: {
     toggleLeftDrawer() {
-      leftDrawerOpen.value = !leftDrawerOpen.value;
+      this.leftDrawerOpen = !this.leftDrawerOpen;
     },
     reportProblem() {
       this.$q.dialog({
