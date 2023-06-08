@@ -111,6 +111,6 @@ export default {
   width: 100%;
   height: calc(100vh - 50px);
   /* mobile viewport bug fix */
-  height: -webkit-fill-available;
+  min-height: -webkit-fill-available;
 }
 </style>
