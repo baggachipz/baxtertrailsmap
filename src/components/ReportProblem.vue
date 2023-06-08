@@ -7,6 +7,7 @@
         data-netlify="true"
         netlify-honeypot="bot-field"
         data-netlify-recaptcha="true"
+        @submit="reportProblem"
       >
         <div class="q-pa-md q-gutter-sm">
           <p class="text-h5">Uh oh, found a problem out there?</p>
@@ -81,25 +82,25 @@ export default {
       this.$emit("hide");
     },
 
-    // async reportProblem() {
-    //   let data = new FormData();
-    //   data.append("name", this.name);
-    //   data.append("email", this.email);
-    //   data.append("comments", this.comments);
-    //   data.append("form-name", "report-problem");
+    async reportProblem() {
+      let data = new FormData();
+      data.append("name", this.name);
+      data.append("email", this.email);
+      data.append("comments", this.comments);
+      data.append("form-name", "report-problem");
 
-    //   try {
-    //     await fetch("/", {
-    //       method: "POST",
-    //       headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    //       body: data,
-    //     });
-    //     this.submitted = true;
-    //     setTimeout(this.onOKClick, 5000);
-    //   } catch (e) {
-    //     this.sendError = "Sorry, there was an error sending this in :(";
-    //   }
-    // },
+      try {
+        await fetch("/", {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: data,
+        });
+        this.submitted = true;
+        setTimeout(this.onOKClick, 5000);
+      } catch (e) {
+        this.sendError = "Sorry, there was an error sending this in :(";
+      }
+    },
 
     onOKClick() {
       // on OK, it is REQUIRED to
