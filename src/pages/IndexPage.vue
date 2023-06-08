@@ -14,7 +14,7 @@
         name="OpenStreetMap"
         :min-zoom="getMinZoom"
       ></l-tile-layer>
-      <l-control position="bottomleft">
+      <l-control position="topleft">
         <q-btn
           round
           color="secondary"
@@ -120,8 +120,6 @@ body {
   width: 100%;
   height: 100%;
   height: calc(100vh - 50px);
-  /* mobile viewport bug fix */
-  /* height: -webkit-fill-available; */
   position: fixed;
   top: 50px;
   bottom: 0;
