@@ -110,5 +110,7 @@ export default {
 .map-container {
   width: 100%;
   height: calc(100vh - 50px);
+  /* mobile viewport bug fix */
+  height: -webkit-fill-available;
 }
 </style>
