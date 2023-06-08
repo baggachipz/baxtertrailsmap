@@ -93,7 +93,7 @@ export default {
         await fetch("/", {
           method: "POST",
           headers: { "Content-Type": "application/x-www-form-urlencoded" },
-          body: data,
+          body: new URLSearchParams(data).toString(),
         });
         this.submitted = true;
         setTimeout(this.onOKClick, 5000);
