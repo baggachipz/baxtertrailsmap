@@ -2,6 +2,7 @@
   <div class="map-container">
     <l-map
       ref="map"
+      class="map"
       v-model:zoom="zoom"
       :center="mapLatLng"
       @ready="onMapReady"
@@ -19,6 +20,7 @@
           color="secondary"
           icon="my_location"
           @click="recenterMap"
+          v-if="!initialLocationFound"
         ></q-btn>
       </l-control>
       <l-control-scale
@@ -61,6 +63,9 @@ export default {
     LMarker,
     LControl,
     LControlScale,
+  },
+  beforeMount() {
+    this.zoom = this.getMinZoom;
   },
   methods: {
     onMapReady(map) {
@@ -107,10 +112,18 @@ export default {
 };
 </script>
 <style scoped>
+body {
+  position: fixed;
+  height: 100%;
+}
 .map-container {
   width: 100%;
+  height: 100%;
   height: calc(100vh - 50px);
   /* mobile viewport bug fix */
-  min-height: -webkit-fill-available;
+  /* height: -webkit-fill-available; */
+  position: fixed;
+  top: 50px;
+  bottom: 0;
 }
 </style>
