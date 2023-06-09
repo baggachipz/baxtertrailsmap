@@ -5,7 +5,7 @@
         name="report-problem"
         method="POST"
         data-netlify="true"
-        netlify-honeypot="bot-field"
+        data-netlify-honeypot="bot-field"
         data-netlify-recaptcha="true"
         @submit="reportProblem"
       >
