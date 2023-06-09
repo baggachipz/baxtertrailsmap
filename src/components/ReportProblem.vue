@@ -6,7 +6,6 @@
         method="POST"
         data-netlify="true"
         data-netlify-honeypot="bot-field"
-        data-netlify-recaptcha="true"
         @submit="reportProblem"
       >
         <div class="q-pa-md q-gutter-sm">
