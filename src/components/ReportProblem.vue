@@ -1,6 +1,6 @@
 <template>
   <q-dialog ref="dialog" @hide="onDialogHide">
-    <q-card class="q-dialog-plugin">
+    <q-card class="q-dialog-plugin" v-if="!submitted">
       <q-form
         name="report-problem"
         method="POST"
@@ -16,12 +16,14 @@
           <q-card-section>
             <input type="hidden" name="bot-field" />
             <q-input
+              dense
               name="name"
               v-model="name"
               label="Your name"
               hint="This is optional."
             ></q-input>
             <q-input
+              dense
               name="email"
               v-model="email"
               label="Your email"
@@ -34,15 +36,28 @@
             autogrow
             v-model="comments"
             placeholder="Tell us about your problem on the trails."
+            :rules="[(val) => !!val || 'Please enter a report.']"
           ></q-input>
-
-          <div data-netlify-recaptcha="true"></div>
         </div>
+
         <q-card-actions align="right">
+          <q-btn label="Cancel" @click="onCancelClick" />
           <q-btn color="primary" type="submit" label="Send Report" />
-          <q-btn color="primary" label="Cancel" @click="onCancelClick" />
         </q-card-actions>
       </q-form>
+    </q-card>
+    <q-card v-if="submitted">
+      <q-card-section>
+        <h5 align="center">Thank you for your feedback!</h5>
+        <p class="text-body1">
+          We have received your report and will be investigating. If you
+          provided contact information, we may be reaching out to you. Thanks
+          for being a trail user.
+        </p>
+      </q-card-section>
+      <q-card-actions align="right">
+        <q-btn color="primary" label="Close" @click="onOKClick" />
+      </q-card-actions>
     </q-card>
   </q-dialog>
 </template>
@@ -96,7 +111,6 @@ export default {
           body: new URLSearchParams(data).toString(),
         });
         this.submitted = true;
-        setTimeout(this.onOKClick, 5000);
       } catch (e) {
         this.sendError = "Sorry, there was an error sending this in :(";
       }
