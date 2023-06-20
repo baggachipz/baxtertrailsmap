@@ -19,8 +19,7 @@
           round
           color="secondary"
           icon="my_location"
-          @click="recenterMap"
-          v-if="!initialLocationFound"
+          @click="onLocationClick"
         ></q-btn>
       </l-control>
       <l-control-scale
@@ -52,7 +51,6 @@ import {
 } from "@vue-leaflet/vue-leaflet";
 
 const MAP_LAT_LNG_DEFAULT = [35.0238, -80.9879];
-const MAP_REFRESH_INTERVAL = 10000;
 
 export default {
   name: "IndexPage",
@@ -70,28 +68,29 @@ export default {
   methods: {
     onMapReady(map) {
       this.map = map;
-      this.getLocation();
+      this.map.on("locationfound", this.onLocationFound);
+      this.getLocation().then(setTimeout(this.recenterMap, 100));
+    },
+    onLocationClick() {
+      this.getLocation().then(this.recenterMap());
     },
     getLocation() {
-      this.map.locate();
-      this.map.on("locationfound", this.onLocationFound);
+      this.map.locate({ watch: true });
+      this.locationResolver = new Promise((resolve) => true);
+      return this.locationResolver;
     },
     onLocationFound(l) {
-      if (this.map.getBounds().contains(l.latlng)) {
-        this.markerSize = l.accuracy;
-        this.markerLatLng = l.latlng;
+      this.markerSize = l.accuracy;
+      this.markerLatLng = l.latlng;
 
-        if (this.initialLocationFound) {
-          // newZoom = 20;
-          // this.mapLatLng = l.latlng;
-          this.recenterMap();
-          this.initialLocationFound = false;
-        }
+      if (this.locationResolver.then && this.locationResolver.resolve) {
+        this.locationResolver.resolve();
+        this.locationResolver = null;
       }
-      setTimeout(this.getLocation, MAP_REFRESH_INTERVAL);
     },
     recenterMap() {
-      this.map.setView(this.markerLatLng, 20, { animation: true });
+      if (this.markerLatLng)
+        this.map.setView(this.markerLatLng, 20, { animation: true });
     },
   },
   computed: {
@@ -106,7 +105,7 @@ export default {
       mapLatLng: MAP_LAT_LNG_DEFAULT,
       markerLatLng: false,
       markerSize: 0,
-      initialLocationFound: true,
+      locationResolver: null,
     };
   },
 };
