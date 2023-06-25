@@ -52,6 +52,15 @@ import {
 
 const MAP_LAT_LNG_DEFAULT = [35.0238, -80.9879];
 
+class Deferred {
+  constructor() {
+    this.promise = new Promise((resolve, reject) => {
+      this.reject = reject;
+      this.resolve = resolve;
+    });
+  }
+}
+
 export default {
   name: "IndexPage",
   components: {
@@ -62,6 +71,7 @@ export default {
     LControl,
     LControlScale,
   },
+  emits: ["location"],
   beforeMount() {
     this.zoom = this.getMinZoom;
   },
@@ -69,24 +79,26 @@ export default {
     onMapReady(map) {
       this.map = map;
       this.map.on("locationfound", this.onLocationFound);
-      this.getLocation().then(setTimeout(this.recenterMap, 100));
+      this.getLocation().then(this.recenterMap);
     },
     onLocationClick() {
-      this.getLocation().then(this.recenterMap());
+      this.getLocation().then(this.recenterMap);
     },
     getLocation() {
       this.map.locate({ watch: true });
-      this.locationResolver = new Promise((resolve) => true);
-      return this.locationResolver;
+      this.locationResolver = new Deferred();
+      return this.locationResolver.promise;
     },
     onLocationFound(l) {
       this.markerSize = l.accuracy;
       this.markerLatLng = l.latlng;
 
-      if (this.locationResolver.then && this.locationResolver.resolve) {
+      if (this.locationResolver && this.locationResolver.resolve) {
         this.locationResolver.resolve();
         this.locationResolver = null;
       }
+
+      this.$emit("location", this.markerLatLng);
     },
     recenterMap() {
       if (this.markerLatLng)

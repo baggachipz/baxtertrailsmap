@@ -50,7 +50,7 @@
     </q-drawer>
 
     <q-page-container>
-      <router-view />
+      <router-view @location="onLocation" />
     </q-page-container>
   </q-layout>
 </template>
@@ -60,7 +60,6 @@ import ReportProblem from "src/components/ReportProblem.vue";
 
 export default {
   name: "MainLayout",
-
   methods: {
     toggleLeftDrawer() {
       this.leftDrawerOpen = !this.leftDrawerOpen;
@@ -70,10 +69,14 @@ export default {
         component: ReportProblem,
       });
     },
+    onLocation(latlng) {
+      this.location = latlng;
+    },
   },
   data() {
     return {
       leftDrawerOpen: false,
+      location: null,
     };
   },
 };
