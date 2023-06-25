@@ -72,6 +72,9 @@ export default {
       sendError: null,
     };
   },
+  props: {
+    location: null,
+  },
   emits: [
     // REQUIRED
     "ok",
@@ -102,6 +105,12 @@ export default {
       data.append("email", this.email);
       data.append("comments", this.comments);
       data.append("form-name", "report-problem");
+
+      if (this.location)
+        data.append(
+          "location",
+          `https://www.openstreetmap.org/?mlat=${this.location.lat}&mlon=${this.location.lng}#map=18/${this.location.lat}/${this.location.lng}&layers=Y`
+        );
 
       try {
         await fetch("/", {

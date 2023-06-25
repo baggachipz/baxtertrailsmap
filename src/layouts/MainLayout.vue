@@ -67,6 +67,9 @@ export default {
     reportProblem() {
       this.$q.dialog({
         component: ReportProblem,
+        componentProps: {
+          location: this.location,
+        },
       });
     },
     onLocation(latlng) {
