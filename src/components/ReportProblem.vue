@@ -50,8 +50,8 @@
         <h5 align="center">Thank you for your feedback!</h5>
         <p class="text-body1">
           We have received your report and will be investigating. If you
-          provided contact information, we may be reaching out to you. Thanks
-          for being a trail user.
+          provided contact information, we may be reaching out to you. Happy
+          trails!
         </p>
       </q-card-section>
       <q-card-actions align="right">
@@ -104,13 +104,15 @@ export default {
       data.append("name", this.name);
       data.append("email", this.email);
       data.append("comments", this.comments);
-      data.append("form-name", "report-problem");
 
-      if (this.location)
+      if (this.location) {
         data.append(
           "location",
           `https://www.openstreetmap.org/?mlat=${this.location.lat}&mlon=${this.location.lng}#map=18/${this.location.lat}/${this.location.lng}&layers=Y`
         );
+      }
+
+      data.append("form-name", "report-problem");
 
       try {
         await fetch("/", {
