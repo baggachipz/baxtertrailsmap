@@ -1,0 +1,7 @@
+<svg viewBox="0 0 30 100" xmlns="http://www.w3.org/2000/svg">
+  <linearGradient id="color-gradient" x1="0" x2="0" y1="0" y2="0.5">
+   <stop offset="0" stop-color="#008080" stop-opacity="0"/>
+   <stop offset="1" stop-color="#008080" stop-opacity="1"/>
+  </linearGradient>
+  <polygon fill="url(#color-gradient)" points="15,50 30,0 0,0" />
+</svg>

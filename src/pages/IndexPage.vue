@@ -27,7 +27,23 @@
         :imperial="true"
         :metric="true"
       ></l-control-scale>
-      <l-marker v-if="markerLatLng" :lat-lng="markerLatLng" />
+      <l-marker v-if="markerLatLng" :lat-lng="markerLatLng">
+        <l-icon class="marker-icon">
+          <div class="location-marker"></div>
+        </l-icon>
+      </l-marker>
+      <l-marker v-if="markerLatLng && heading" :lat-lng="markerLatLng">
+        <l-icon class="direction-icon">
+          <div class="direction-marker">
+            <q-img
+              height="100px"
+              src="~assets/direction.svg"
+              class="direction-marker-image"
+              :style="getHeadingStyle"
+            ></q-img>
+          </div>
+        </l-icon>
+      </l-marker>
       <l-circle
         v-if="markerLatLng"
         :lat-lng="markerLatLng"
@@ -45,6 +61,7 @@ import {
   LMap,
   LTileLayer,
   LCircle,
+  LIcon,
   LMarker,
   LControl,
   LControlScale,
@@ -67,6 +84,7 @@ export default {
     LMap,
     LTileLayer,
     LCircle,
+    LIcon,
     LMarker,
     LControl,
     LControlScale,
@@ -92,6 +110,7 @@ export default {
     onLocationFound(l) {
       this.markerSize = l.accuracy;
       this.markerLatLng = l.latlng;
+      this.heading = l.heading ? l.heading : null;
 
       if (this.locationResolver && this.locationResolver.resolve) {
         this.locationResolver.resolve();
@@ -109,6 +128,9 @@ export default {
     getMinZoom() {
       return this.$q.platform.is.mobile ? 13 : 15;
     },
+    getHeadingStyle() {
+      return this.heading ? `transform: rotate(${this.heading}deg)` : null;
+    },
   },
   data() {
     return {
@@ -118,14 +140,20 @@ export default {
       markerLatLng: false,
       markerSize: 0,
       locationResolver: null,
+      heading: null,
     };
   },
 };
 </script>
-<style scoped>
+<style lang="scss">
 body {
   position: fixed;
   height: 100%;
+}
+
+.leaflet-div-icon {
+  border: 0;
+  background: none;
 }
 .map-container {
   width: 100%;
@@ -134,5 +162,66 @@ body {
   position: fixed;
   top: 50px;
   bottom: 0;
+}
+
+.direction-marker {
+  position: absolute;
+  opacity: 0.7;
+  left: 8px;
+  top: 0;
+  transform: translateX(-50%) translateY(-50%);
+  width: 30px;
+  height: 100px;
+
+  .direction-marker-image {
+    margin-left: -1.5px;
+    margin-top: 6.5px;
+  }
+}
+
+.location-marker {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  width: 15px;
+  height: 15px;
+
+  &:before {
+    content: "";
+    position: relative;
+    display: block;
+    width: 300%;
+    height: 300%;
+    box-sizing: border-box;
+    margin-left: -100%;
+    margin-top: -100%;
+    border-radius: 45px;
+    background-color: teal;
+    animation: pulse-ring 1.25s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+  }
+
+  &:after {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    background-color: #01a4e9;
+    border-radius: 15px;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+  }
+}
+
+@keyframes pulse-ring {
+  0% {
+    transform: scale(0.33);
+  }
+  80%,
+  100% {
+    opacity: 0;
+  }
 }
 </style>
