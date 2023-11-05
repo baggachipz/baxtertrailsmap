@@ -112,7 +112,9 @@ export default {
       this.markerLatLng = l.latlng;
       if (l.heading) {
         this.heading = l.heading;
-        console.debug(l);
+        console.debug("heading", l);
+      } else {
+        console.debug("NO heading");
       }
 
       if (this.locationResolver && this.locationResolver.resolve) {
