@@ -108,10 +108,12 @@ export default {
       return this.locationResolver.promise;
     },
     onLocationFound(l) {
-      console.debug("location:", l);
       this.markerSize = l.accuracy;
       this.markerLatLng = l.latlng;
-      this.heading = l.heading ? l.heading : null;
+      if (l.heading) {
+        this.heading = l.heading;
+        console.debug(l);
+      }
 
       if (this.locationResolver && this.locationResolver.resolve) {
         this.locationResolver.resolve();
