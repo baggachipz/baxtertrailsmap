@@ -111,10 +111,7 @@ export default {
       this.markerSize = l.accuracy;
       this.markerLatLng = l.latlng;
       if (l.heading) {
-        this.heading = l.heading;
-        console.debug("heading", l);
-      } else {
-        console.debug("NO heading");
+        this.heading = Math.round(l.heading);
       }
 
       if (this.locationResolver && this.locationResolver.resolve) {
@@ -172,8 +169,8 @@ body {
 .direction-marker {
   position: absolute;
   opacity: 0.7;
-  left: 8px;
-  top: 0;
+  left: 7px;
+  top: -1.5px;
   transform: translateX(-50%) translateY(-50%);
   width: 30px;
   height: 100px;
