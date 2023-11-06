@@ -46,7 +46,7 @@
               max-file-size="8388608"
               label="Take a picture"
               hint="This is optional."
-            >
+              >s
               <template v-slot:prepend>
                 <q-icon name="add_a_photo" />
               </template>
@@ -144,7 +144,7 @@ export default {
       try {
         await fetch("/", {
           method: "POST",
-          body: new FormData(data),
+          body: data,
         });
         this.submitted = true;
       } catch (e) {
