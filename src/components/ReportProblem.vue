@@ -6,6 +6,7 @@
         method="POST"
         data-netlify="true"
         data-netlify-honeypot="bot-field"
+        enctype="multipart/form-data"
         @submit="reportProblem"
       >
         <div class="q-pa-md q-gutter-sm">
@@ -20,14 +21,36 @@
               v-model="name"
               label="Your name"
               hint="This is optional."
-            ></q-input>
+            >
+              <template v-slot:prepend>
+                <q-icon name="person" />
+              </template>
+            </q-input>
             <q-input
               dense
               name="email"
               v-model="email"
               label="Your email"
               hint="This is optional."
-            ></q-input>
+              ><template v-slot:prepend>
+                <q-icon name="mail" />
+              </template>
+            </q-input>
+            <q-file
+              dense
+              name="picture"
+              v-model="picture"
+              accept=".jpg, image/*"
+              capture="environment"
+              :clearable="true"
+              max-file-size="8388608"
+              label="Take a picture"
+              hint="This is optional."
+            >
+              <template v-slot:prepend>
+                <q-icon name="add_a_photo" />
+              </template>
+            </q-file>
           </q-card-section>
           <q-input
             name="comments"
@@ -62,12 +85,15 @@
 </template>
 
 <script>
+import { ref } from "vue";
+
 export default {
   data() {
     return {
       name: "",
       email: "",
       comments: "",
+      picture: ref(null),
       submitted: false,
       sendError: null,
     };
@@ -104,6 +130,7 @@ export default {
       data.append("name", this.name);
       data.append("email", this.email);
       data.append("comments", this.comments);
+      data.append("picture", this.picture);
 
       if (this.location) {
         data.append(
@@ -117,8 +144,7 @@ export default {
       try {
         await fetch("/", {
           method: "POST",
-          headers: { "Content-Type": "application/x-www-form-urlencoded" },
-          body: new URLSearchParams(data).toString(),
+          body: new FormData(data),
         });
         this.submitted = true;
       } catch (e) {
