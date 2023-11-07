@@ -46,7 +46,7 @@
               max-file-size="8388608"
               label="Take a picture"
               hint="This is optional."
-              >s
+            >
               <template v-slot:prepend>
                 <q-icon name="add_a_photo" />
               </template>
@@ -64,7 +64,12 @@
 
         <q-card-actions align="right">
           <q-btn label="Cancel" @click="onCancelClick" />
-          <q-btn color="primary" type="submit" label="Send Report" />
+          <q-btn
+            color="primary"
+            type="submit"
+            :loading="submitting"
+            label="Send Report"
+          />
         </q-card-actions>
       </q-form>
     </q-card>
@@ -95,6 +100,7 @@ export default {
       comments: "",
       picture: ref(null),
       submitted: false,
+      submitting: false,
       sendError: null,
     };
   },
@@ -142,12 +148,15 @@ export default {
       data.append("form-name", "report-problem");
 
       try {
+        this.submitting = true;
         await fetch("/", {
           method: "POST",
           body: data,
         });
+        this.submitting = false;
         this.submitted = true;
       } catch (e) {
+        this.submitting = false;
         this.sendError = "Sorry, there was an error sending this in :(";
       }
     },
