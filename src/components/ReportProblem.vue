@@ -44,7 +44,7 @@
               capture="environment"
               :clearable="true"
               max-file-size="8388608"
-              label="Take a picture"
+              label="Add a picture"
               hint="This is optional."
             >
               <template v-slot:prepend>
