@@ -25,7 +25,6 @@
           <q-item-section avatar>
             <q-icon name="warning" />
           </q-item-section>
-
           <q-item-section>
             <q-item-label>Report a Problem</q-item-label>
             <q-item-label caption>Downed tree? Broken sign?</q-item-label>
@@ -40,10 +39,23 @@
           <q-item-section avatar>
             <q-icon name="facebook" />
           </q-item-section>
-
           <q-item-section>
             <q-item-label>Facebook</q-item-label>
             <q-item-label caption>Connect with us</q-item-label>
+          </q-item-section>
+        </q-item>
+        <q-item
+          clickable
+          tag="a"
+          target="_blank"
+          href="https://www.baxtertrailclub.org"
+        >
+          <q-item-section avatar>
+            <q-icon name="group_add" />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>Become a Member</q-item-label>
+            <q-item-label caption>We need your help!</q-item-label>
           </q-item-section>
         </q-item>
       </q-list>
