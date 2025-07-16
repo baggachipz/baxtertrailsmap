@@ -7,6 +7,7 @@
         data-netlify="true"
         data-netlify-honeypot="bot-field"
         enctype="multipart/form-data"
+        @submit="reportProblem"
       >
         <div class="q-pa-md q-gutter-sm">
           <p class="text-h5">Uh oh, found a problem out there?</p>
@@ -35,7 +36,7 @@
                 <q-icon name="mail" />
               </template>
             </q-input>
-            <q-file
+            <!--<q-file
               dense
               name="picture"
               v-model="picture"
@@ -49,7 +50,7 @@
               <template v-slot:prepend>
                 <q-icon name="add_a_photo" />
               </template>
-            </q-file>
+            </q-file>-->
           </q-card-section>
           <q-input
             name="comments"
@@ -135,7 +136,7 @@ export default {
       data.append("name", this.name);
       data.append("email", this.email);
       data.append("comments", this.comments);
-      data.append("picture", this.picture);
+      // data.append("picture", this.picture);
 
       if (this.location) {
         data.append(
