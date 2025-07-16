@@ -7,7 +7,6 @@
         data-netlify="true"
         data-netlify-honeypot="bot-field"
         enctype="multipart/form-data"
-        @submit="reportProblem"
       >
         <div class="q-pa-md q-gutter-sm">
           <p class="text-h5">Uh oh, found a problem out there?</p>
